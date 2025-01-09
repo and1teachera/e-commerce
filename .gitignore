@@ -34,3 +34,7 @@ out/
 .vscode/
 
 .env
+
+backend/.gradle
+backend/build/
+backend/gradle
