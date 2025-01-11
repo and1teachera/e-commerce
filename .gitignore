@@ -38,6 +38,3 @@ out/
 backend/.gradle
 backend/build/
 backend/gradle
-frontend/node_modules
-/frontend/.angular/
-/frontend/ecommerce/.angular/
