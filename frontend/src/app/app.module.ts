@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import {HttpClientModule} from "@angular/common/http";
 import {ProductService} from "./services/product.service";
 import { ProductListComponent } from './components/product-list/product-list.component';
+import {NgOptimizedImage} from "@angular/common";
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ProductListComponent } from './components/product-list/product-list.com
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgOptimizedImage
   ],
   providers: [ProductService],
   bootstrap: [AppComponent]
