@@ -12,6 +12,7 @@ export class ProductListComponent implements OnInit {
   products: Product[] = [];
   currentCategoryId: number = 1;
   currentCategoryName: string = 'Default Category';
+  searchMode: boolean = false;
 
   constructor(private productService: ProductService,
               private route: ActivatedRoute) { }
@@ -23,20 +24,40 @@ export class ProductListComponent implements OnInit {
   }
 
   listProducts(): void {
-    const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
-    const hasCategoryName: boolean = this.route.snapshot.paramMap.has('name');
+    this.searchMode = this.route.snapshot.paramMap.has('keyword');
 
-    if (hasCategoryId) {
-      this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
+    if (this.searchMode) {
+      this.handleSearchProducts();
     } else {
-      this.currentCategoryId = 1;
+      this.handleListProducts();
+    }
+  }
+
+    handleListProducts(): void {
+      const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
+      const hasCategoryName: boolean = this.route.snapshot.paramMap.has('name');
+
+      if (hasCategoryId) {
+        this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
+      } else {
+        this.currentCategoryId = 1;
+      }
+
+      if (hasCategoryName) {
+        this.currentCategoryName = this.route.snapshot.paramMap.get('name')!;
+      }
+
+      this.productService.getProductList(this.currentCategoryId).subscribe(
+          data => {
+            this.products = data;
+          }
+      );
     }
 
-    if (hasCategoryName) {
-      this.currentCategoryName = this.route.snapshot.paramMap.get('name')!;
-    }
+  private handleSearchProducts() {
+    const keyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
-    this.productService.getProductList(this.currentCategoryId).subscribe(
+    this.productService.searchProducts(keyword).subscribe(
         data => {
           this.products = data;
         }
